@@ -1,1 +1,8 @@
 .superpowers/
+.venv/
+__pycache__/
+data/raw/*
+!data/raw/lock.json
+data/index/
+data/cache/
+data/chunks/

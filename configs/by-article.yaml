@@ -1,0 +1,3 @@
+id: by-article
+chunking: article
+retrieval: dense
