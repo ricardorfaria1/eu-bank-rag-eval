@@ -6,6 +6,7 @@ from langchain_core.embeddings import DeterministicFakeEmbedding
 from langchain_core.language_models.fake_chat_models import GenericFakeChatModel
 from langchain_core.messages import AIMessage
 from langchain_qdrant import SparseEmbeddings, SparseVector
+from pydantic import Field
 
 
 class WordHashSparse(SparseEmbeddings):
@@ -32,7 +33,7 @@ def fake_dense():
 class RecordingChat(GenericFakeChatModel):
     """Fake chat model that records every prompt it receives."""
 
-    prompts: list = []
+    prompts: list = Field(default_factory=list)
 
     def _generate(self, messages, stop=None, run_manager=None, **kwargs):
         self.prompts.append(messages)
