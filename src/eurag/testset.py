@@ -7,6 +7,8 @@ Only rows reviewed by a person (origin "reviewed") or written by hand
 import csv
 import json
 import random
+import re
+import sys
 from pathlib import Path
 from typing import Literal
 
@@ -72,51 +74,92 @@ def merge_review(reviewed_path: Path, handwritten_path: Path, out: Path) -> list
 
 TRANSLATE_PROMPT = (
     "Translate this question and its reference answer into European Portuguese (Portugal, not Brazil). "
-    "Keep legal terms, article numbers and document names exact. Reply as JSON with keys "
+    "Keep legal terms, article numbers and document names exact. Reply only with JSON with keys "
     '"user_input" and "reference".\n\nQuestion: {q}\n\nReference: {r}'
 )
 
 
-def generate_candidates(chunks: list[Chunk], judge_model: str, embeddings, n: int = 80, pt_share: float = 0.6,
-                        seed: int = 7) -> list[TestCase]:  # pragma: no cover - paid, exercised in Task 11
-    """Generate candidate questions with Ragas, then translate English ones until pt_share is Portuguese."""
-    from anthropic import Anthropic
+def chunks_for_contexts(contexts: list[str], chunks: list[Chunk]) -> list[Chunk]:
+    """Chunks a reference context came from. Ragas may split long chunks, so match by containment."""
+    found = []
+    for ctx in contexts:
+        needle = ctx.strip()
+        for c in chunks:
+            if needle and (needle in c.text or c.text.strip() in needle) and c not in found:
+                found.append(c)
+    return found
+
+
+def extract_json(text: str) -> dict:
+    """The first JSON object in a reply, tolerating code fences or a sentence before it."""
+    m = re.search(r"\{.*\}", text, re.DOTALL)
+    if not m:
+        raise ValueError(f"no JSON object in reply: {text[:80]!r}")
+    return json.loads(m.group(0))
+
+
+def generator_llm(model: str, api_key: str | None = None):
+    """Ragas LLM wrapper for test-set generation. bypass_temperature: current Claude models reject it."""
     from langchain_anthropic import ChatAnthropic
+    from ragas.llms.base import LangchainLLMWrapper
+
+    kwargs = {"api_key": api_key} if api_key else {}
+    return LangchainLLMWrapper(ChatAnthropic(model=model, max_tokens=4096, **kwargs), bypass_temperature=True)
+
+
+def generate_candidates(chunks: list[Chunk], judge_model: str, embeddings, n: int = 80) -> list[TestCase]:  # pragma: no cover - paid
+    """Generate candidate questions with Ragas. Cases whose contexts match no chunk are reported and dropped."""
     from langchain_core.documents import Document
     from ragas.embeddings import LangchainEmbeddingsWrapper
-    from ragas.llms import LangchainLLMWrapper
     from ragas.testset import TestsetGenerator
 
-    by_text = {c.text: c for c in chunks}
-    docs = [Document(page_content=c.text, metadata={"chunk_id": c.chunk_id}) for c in chunks if c.article]
-    generator = TestsetGenerator(
-        llm=LangchainLLMWrapper(ChatAnthropic(model=judge_model, max_tokens=4096)),
-        embedding_model=LangchainEmbeddingsWrapper(embeddings),
-    )
+    docs = [Document(page_content=c.text, metadata={"chunk_id": c.chunk_id}) for c in chunks if c.covers]
+    generator = TestsetGenerator(llm=generator_llm(judge_model), embedding_model=LangchainEmbeddingsWrapper(embeddings))
     frame = generator.generate_with_langchain_docs(docs, testset_size=n).to_pandas()
 
-    cases = []
+    cases, unmatched = [], 0
     for i, row in enumerate(frame.itertuples(), 1):
         contexts = list(row.reference_contexts)
-        source = [by_text[t] for t in contexts if t in by_text]
-        language = next((c.language for c in source), "en")
+        source = chunks_for_contexts(contexts, chunks)
+        if not source:
+            unmatched += 1
+            continue
         cases.append(TestCase(
-            id=f"g{i:03d}", language=language, category="multi_doc" if len({c.doc_id for c in source}) > 1
-            else "single_doc", origin="generated", user_input=row.user_input, reference=row.reference,
-            reference_contexts=contexts, reference_citations=citations_for(source),
+            id=f"g{i:03d}", language=source[0].language,
+            category="multi_doc" if len({c.doc_id for c in source}) > 1 else "single_doc", origin="generated",
+            user_input=row.user_input, reference=row.reference, reference_contexts=contexts,
+            reference_citations=citations_for(source),
         ))
+    if unmatched:
+        print(f"warning: {unmatched} generated cases matched no chunk and were dropped", file=sys.stderr)
+    return cases
+
+
+def translate_cases(cases: list[TestCase], model: str, pt_share: float = 0.6,
+                    seed: int = 7) -> list[TestCase]:  # pragma: no cover - paid
+    """Translate English cases to European Portuguese until pt_share of the set is Portuguese.
+
+    A reply that cannot be parsed leaves that case in English instead of aborting.
+    """
+    from anthropic import Anthropic
 
     rng = random.Random(seed)
     english = [c for c in cases if c.language == "en"]
     rng.shuffle(english)
     client = Anthropic()
-    while english and sum(c.language == "pt" for c in cases) < pt_share * len(cases):
+    out = list(cases)
+    while english and sum(c.language == "pt" for c in out) < pt_share * len(out):
         case = english.pop()
         reply = client.messages.create(
-            model=judge_model, max_tokens=2048,
+            model=model, max_tokens=2048,
             messages=[{"role": "user", "content": TRANSLATE_PROMPT.format(q=case.user_input, r=case.reference)}],
         )
-        translated = json.loads(next(b.text for b in reply.content if b.type == "text"))
-        idx = cases.index(case)
-        cases[idx] = case.model_copy(update={**translated, "language": "pt", "category": "cross_language"})
-    return cases
+        try:
+            translated = extract_json(next(b.text for b in reply.content if b.type == "text"))
+        except (ValueError, StopIteration) as exc:
+            print(f"warning: could not translate {case.id}: {exc}", file=sys.stderr)
+            continue
+        out[out.index(case)] = case.model_copy(update={"user_input": translated["user_input"],
+                                                       "reference": translated["reference"], "language": "pt",
+                                                       "category": "cross_language"})
+    return out

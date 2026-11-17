@@ -35,14 +35,14 @@ flowchart LR
 | EBA-RO | Orientações da EBA sobre onboarding remoto de clientes | EN | EBA |
 | L83-2017 | Lei n.º 83/2017 | PT | Portal das Finanças |
 | L97-2017 | Lei n.º 97/2017 (medidas restritivas) | PT | Diário da República, download manual |
-| L72-2025 | Lei n.º 72/2025 (altera a Lei 97/2017) | PT | Portal das Finanças |
+| L72-2025 | Lei n.º 72/2025 (altera e, no anexo, republica a Lei 97/2017) | PT | Portal das Finanças |
 | BdP-A1-2022 | Aviso do Banco de Portugal n.º 1/2022 | PT | Banco de Portugal |
 | BdP-A1-2023 | Aviso do Banco de Portugal n.º 1/2023 | PT | Banco de Portugal |
 | BdP-A3-2024 | Aviso do Banco de Portugal n.º 3/2024 | PT | Banco de Portugal |
 | BdP-I8-2024 | Instrução do Banco de Portugal n.º 8/2024 | PT | Banco de Portugal |
 | CMVM-R2-2020 | Regulamento da CMVM n.º 2/2020 | PT | CMVM, download manual |
 
-Os documentos são descarregados das fontes oficiais e nunca entram no repositório. O ficheiro `data/raw/lock.json` regista o sha256 e a data de cada ficheiro usado. Dois documentos não têm endereço de download estável; guarde-os à mão como `data/raw/L97-2017.pdf` e `data/raw/CMVM-R2-2020.pdf`. A base de reutilização de cada fonte está em `corpus/manifest.yaml`.
+Os documentos são descarregados das fontes oficiais e nunca entram no repositório. O ficheiro `data/raw/lock.json` regista o sha256 e a data de cada ficheiro usado. Dois documentos não têm endereço de download estável; guarde-os à mão como `data/raw/L97-2017.pdf` e `data/raw/CMVM-R2-2020.pdf`. A Lei 97/2017 é opcional, porque a Lei 72/2025 a republica no anexo; os artigos de anexos são citados como `anexo1-N`. A base de reutilização de cada fonte está em `corpus/manifest.yaml`.
 
 ## Configurações
 
@@ -109,10 +109,16 @@ uv run eurag evaluate --config all
 ```
 
 ```bash
+uv run eurag calibrate --sample
+```
+
+Avalie às cegas `calibration/sample.csv` em `calibration/agent_grades.csv` (colunas `question_id, config_id, faithfulness, factual_correctness`, valores de 0 a 1) e depois:
+
+```bash
 uv run eurag report
 ```
 
-As respostas ficam em cache por configuração: uma execução interrompida retoma sem pagar de novo, e uma configuração alterada nunca reutiliza respostas antigas.
+O `evaluate` só paga pelas respostas ainda sem nota; `--retry-errors` volta a avaliar as linhas em que o juiz falhou. As respostas ficam em cache por configuração: uma execução interrompida retoma sem pagar de novo, e uma configuração, pergunta, corpus ou prompt alterado nunca reutiliza respostas antigas. Cada resposta paga fica no registo de gastos assim que chega.
 
 Testes sem rede (sem API e sem descarregar modelos):
 

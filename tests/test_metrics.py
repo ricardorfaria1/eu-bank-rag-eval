@@ -58,3 +58,8 @@ def test_refusal_correct_only_out_of_scope():
     assert refusal_correct(oos, "Não encontrei essa informação.") == 1.0
     assert refusal_correct(oos, "A taxa é 2%.") == 0.0
     assert refusal_correct(other, "Não encontrei.") is None
+
+
+def test_statement_with_negation_is_not_refusal():
+    assert not is_refusal("O artigo não contém exceções para PEP [AMLR, art. 42].")
+    assert not is_refusal("There is no information requirement beyond Article 20 [AMLR, art. 20].")

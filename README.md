@@ -35,14 +35,14 @@ flowchart LR
 | EBA-RO | EBA Guidelines on remote customer onboarding | EN | EBA |
 | L83-2017 | Lei n.º 83/2017 | PT | Portal das Finanças |
 | L97-2017 | Lei n.º 97/2017 (restrictive measures) | PT | Diário da República, manual download |
-| L72-2025 | Lei n.º 72/2025 (amends Lei 97/2017) | PT | Portal das Finanças |
+| L72-2025 | Lei n.º 72/2025 (amends and, in its annex, republishes Lei 97/2017) | PT | Portal das Finanças |
 | BdP-A1-2022 | Aviso do Banco de Portugal n.º 1/2022 | PT | Banco de Portugal |
 | BdP-A1-2023 | Aviso do Banco de Portugal n.º 1/2023 | PT | Banco de Portugal |
 | BdP-A3-2024 | Aviso do Banco de Portugal n.º 3/2024 | PT | Banco de Portugal |
 | BdP-I8-2024 | Instrução do Banco de Portugal n.º 8/2024 | PT | Banco de Portugal |
 | CMVM-R2-2020 | Regulamento da CMVM n.º 2/2020 | PT | CMVM, manual download |
 
-Documents are downloaded from the official sources, never committed. `data/raw/lock.json` records the sha256 and retrieval date of each file used. Two documents have no stable download URL; save them by hand as `data/raw/L97-2017.pdf` and `data/raw/CMVM-R2-2020.pdf`. The reuse basis for each source is in `corpus/manifest.yaml`.
+Documents are downloaded from the official sources, never committed. `data/raw/lock.json` records the sha256 and retrieval date of each file used. Two documents have no stable download URL; save them by hand as `data/raw/L97-2017.pdf` and `data/raw/CMVM-R2-2020.pdf`. Lei 97/2017 is optional, because Lei 72/2025 republishes it in its annex; annex articles are cited as `anexo1-N`. The reuse basis for each source is in `corpus/manifest.yaml`.
 
 ## Configurations
 
@@ -109,10 +109,16 @@ uv run eurag evaluate --config all
 ```
 
 ```bash
+uv run eurag calibrate --sample
+```
+
+Grade `calibration/sample.csv` blind into `calibration/agent_grades.csv` (columns `question_id, config_id, faithfulness, factual_correctness`, values 0 to 1), then:
+
+```bash
 uv run eurag report
 ```
 
-Answers are cached per configuration, so an interrupted run resumes without paying again, and a changed configuration never reuses old answers.
+`evaluate` only pays for answers that have no score yet; `--retry-errors` rescores rows whose judge call failed. Answers are cached per configuration, so an interrupted run resumes without paying again, and a changed configuration, question, corpus or prompt never reuses old answers. Every paid answer is recorded in the budget ledger as soon as it is received.
 
 Offline tests (no API, no model downloads):
 

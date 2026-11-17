@@ -1,7 +1,8 @@
 """Generate cited answers from retrieved excerpts."""
 
+import hashlib
 import time
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -23,13 +24,16 @@ Answer in the language of the question. Be concise.
 
 If the excerpts do not contain the answer, say so in one sentence and do not guess."""
 
+PROMPT_VERSION = hashlib.sha256(ANSWER_SYSTEM_PROMPT.encode()).hexdigest()[:8]
+
 
 def excerpt_header(retrieved: Retrieved) -> str:
+    """One header per article the excerpt contains, so every article in it can be cited."""
     c = retrieved.chunk
-    if c.article is None:
+    if not c.covers:
         return f"[{c.doc_id}, preamble]"
     unit = "guideline" if c.doc_id.startswith("EBA") else "art."
-    return f"[{c.doc_id}, {unit} {c.article}]"
+    return " ".join(f"[{c.doc_id}, {unit} {a}]" for a in c.covers)
 
 
 def build_messages(question: str, retrieved: list[Retrieved]) -> list:
@@ -55,14 +59,17 @@ class Answer(BaseModel):
     output_tokens: int
     seconds: float
     model: str
+    corpus_key: str = ""
+    prompt_version: str = PROMPT_VERSION
 
 
 def answer_all(questions: Iterable[tuple[str, str]], config: RagConfig, retriever, chat: BaseChatModel,
-               cache: AnswerCache, aliases: dict[str, str]) -> list[Answer]:
-    """Answer (question_id, question) pairs, reusing cached answers for the same config fingerprint."""
+               cache: AnswerCache, aliases: dict[str, str], corpus_key: str = "",
+               on_answer: Callable[[Answer], None] | None = None) -> list[Answer]:
+    """Answer (question_id, question) pairs, reusing cached answers; on_answer runs after each paid answer."""
     answers = []
     for qid, question in questions:
-        cached = cache.get(config, qid)
+        cached = cache.get(config, qid, question, corpus_key)
         if cached is not None:
             answers.append(cached)
             continue
@@ -72,9 +79,11 @@ def answer_all(questions: Iterable[tuple[str, str]], config: RagConfig, retrieve
         answer = Answer(
             question_id=qid, config_id=config.id, config_fingerprint=config.fingerprint(), question=question,
             text=text, citations=parse_citations(text, aliases), retrieved=retrieved,
-            seconds=round(time.perf_counter() - start, 3), model=config.answer_model, **usage,
+            seconds=round(time.perf_counter() - start, 3), model=config.answer_model, corpus_key=corpus_key, **usage,
         )
         cache.put(answer)
+        if on_answer:
+            on_answer(answer)
         answers.append(answer)
     return answers
 

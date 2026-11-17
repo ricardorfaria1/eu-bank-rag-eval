@@ -49,10 +49,12 @@ def citation_precision(cited: list[Citation], retrieved: list[Retrieved]) -> flo
     return sum(c.key() in available for c in cited) / len(cited)
 
 
+# Phrases that refer to the excerpts or to answering, so a factual negation ("o artigo não contém
+# exceções") is not mistaken for a refusal.
 _REFUSAL_PHRASES = (
-    "nao encontrei", "nao consigo responder", "nao esta nos excertos", "nao contem", "nao contêm",
-    "os excertos nao", "could not find", "couldn't find", "not in the excerpts", "cannot answer",
-    "do not contain", "does not contain", "don't contain", "no information",
+    "nao encontrei", "nao consigo responder", "nao esta nos excertos", "os excertos nao",
+    "excertos fornecidos nao", "could not find", "couldn't find", "not in the excerpts", "cannot answer",
+    "excerpts do not contain", "excerpts don't contain", "excerpts provided do not",
 )
 
 

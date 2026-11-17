@@ -5,6 +5,7 @@ import json
 import shutil
 from pathlib import Path
 from types import SimpleNamespace
+from typing import ClassVar
 
 import yaml
 
@@ -16,7 +17,14 @@ FIX = Path(__file__).parent / "fixtures"
 
 
 class StubMetric:
+    loops: ClassVar[set] = set()
+    calls = 0
+
     async def ascore(self, **kwargs):
+        import asyncio
+
+        StubMetric.loops.add(id(asyncio.get_running_loop()))
+        StubMetric.calls += 1
         return SimpleNamespace(value=0.75)
 
 
@@ -62,8 +70,14 @@ def test_offline_pipeline(tmp_path, monkeypatch):
     assert (tmp_path / "data/chunks/article.jsonl").exists()
     assert cli.main(["run", "--config", "all", "--yes", "--limit", "3"]) == 0
     assert sum(len(c.prompts) for c in chats) == 9
+    StubMetric.loops.clear()
     assert cli.main(["evaluate", "--config", "all", "--yes"]) == 0
     assert len((tmp_path / "results/scores/baseline.jsonl").read_text().splitlines()) == 3
+    assert len(StubMetric.loops) == 1  # one event loop for every config: the judge client is reused safely
+    StubMetric.calls = 0
+    assert cli.main(["evaluate", "--config", "all", "--yes"]) == 0
+    assert StubMetric.calls == 0  # already scored rows are not paid for again
+    assert json.loads((tmp_path / "results/budget.json").read_text())[0]["stage"] == "run"
     assert cli.main(["report"]) == 0
     report = (tmp_path / "REPORT.md").read_text()
     for cfg in ("baseline", "by-article", "by-article-hybrid"):

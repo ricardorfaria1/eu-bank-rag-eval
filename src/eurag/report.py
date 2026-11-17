@@ -1,11 +1,13 @@
 """Comparative report (REPORT.md) and chart from the evaluation scores."""
 
+import itertools
 import json
 import math
 from datetime import date
 from pathlib import Path
 
 from eurag.calibration import agreement, load_agent_grades
+from eurag.costs import ANSWER_MODEL, actual_cost
 from eurag.stats import bootstrap_ci, paired_diff_ci
 
 METRICS = ["hit_at_5", "rr", "citation_recall", "citation_precision", "faithfulness", "factual_correctness",
@@ -19,7 +21,7 @@ FAIL_THRESHOLD = 0.5
 
 def load_scores(scores_dir: Path) -> dict[str, list[dict]]:
     out = {}
-    for path in sorted(Path(scores_dir).glob("*.jsonl")):
+    for path in sorted(Path(scores_dir).glob("*.jsonl"), key=lambda p: p.stem):
         rows = [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
         out[path.stem] = sorted(rows, key=lambda r: r["question_id"])
     return out
@@ -83,9 +85,11 @@ def build_report(scores_dir: Path, out: Path = Path("REPORT.md"), chart: Path = 
 
     lines += ["## Run", ""]
     lines.append(f"- Date: {meta.get('date', date.today().isoformat())}")
-    for key in ("answer_model", "judge_model", "corpus_lock_sha256", "total_cost_usd"):
+    for key in ("answer_model", "judge_model", "corpus_lock_sha256", "total_cost_usd", "judge_cost_usd"):
         if key in meta:
-            lines.append(f"- {key.replace('_', ' ').capitalize()}: {meta[key]}")
+            label = {"judge_cost_usd": "Judge cost (USD)", "total_cost_usd": "Total cost (USD)"}.get(
+                key, key.replace("_", " ").capitalize())
+            lines.append(f"- {label}: {meta[key]}")
     langs = {lang: sum(r["language"] == lang for r in first) for lang in sorted({r["language"] for r in first})}
     cats = {c: sum(r["category"] == c for r in first) for c in sorted({r["category"] for r in first})}
     lines.append(f"- Questions evaluated: {len(first)} (by language: {langs}; by category: {cats})")
@@ -97,24 +101,36 @@ def build_report(scores_dir: Path, out: Path = Path("REPORT.md"), chart: Path = 
     for m in METRICS:
         lines.append(f"| {METRIC_LABELS[m]} | " + " | ".join(_fmt(bootstrap_ci([r.get(m) for r in scores[c]]))
                                                              for c in configs) + " |")
+    def per_answer(c: str, fn) -> str:
+        return f"{sum(fn(r) for r in scores[c]) / len(scores[c]):,.0f}" if scores[c] else "n/a"
+
     lines.append("| Seconds per answer | " + " | ".join(
         f"{sum(r['seconds'] for r in scores[c]) / len(scores[c]):.1f}" for c in configs) + " |")
+    lines.append("| Input tokens per answer | " + " | ".join(per_answer(c, lambda r: r["input_tokens"])
+                                                         for c in configs) + " |")
+    lines.append("| Output tokens per answer | " + " | ".join(per_answer(c, lambda r: r["output_tokens"])
+                                                          for c in configs) + " |")
+    lines.append("| Answer cost per question (USD) | " + " | ".join(
+        f"{sum(actual_cost(ANSWER_MODEL, r['input_tokens'], r['output_tokens']) for r in scores[c]) / len(scores[c]):.4f}"
+        for c in configs) + " |")
     lines.append("")
 
-    lines += ["## Difference against baseline", "",
+    # Each config against the baseline and against the config before it (one change at a time).
+    pairs = [(c, BASELINE) for c in configs if c != BASELINE]
+    pairs += [(b, a) for a, b in itertools.pairwise(configs) if a != BASELINE]
+    lines += ["## Difference between configurations", "",
               "Paired by question. Inconclusive when the 95% interval contains zero.", ""]
-    lines += ["| Config | Metric | Difference | Verdict |", "|---|---|---|---|"]
-    for c in configs:
-        if c == BASELINE:
-            continue
+    lines += ["| Comparison | Metric | Difference | Verdict |", "|---|---|---|---|"]
+    for c, ref in pairs:
         for m in METRICS:
-            base, other = _by_question(scores[BASELINE], m), _by_question(scores[c], m)
+            base, other = _by_question(scores[ref], m), _by_question(scores[c], m)
             qids = sorted(set(base) & set(other))
             ci = paired_diff_ci([other[q] for q in qids], [base[q] for q in qids])
             if math.isnan(ci[0]):
                 continue
             verdict = "inconclusive" if ci[1] <= 0 <= ci[2] else ("better" if ci[0] > 0 else "worse")
-            lines.append(f"| {c} | {METRIC_LABELS[m]} | {ci[0]:+.2f} [{ci[1]:+.2f}, {ci[2]:+.2f}] | {verdict} |")
+            lines.append(f"| {c} vs {ref} | {METRIC_LABELS[m]} | {ci[0]:+.2f} [{ci[1]:+.2f}, {ci[2]:+.2f}] "
+                         f"| {verdict} |")
     lines.append("")
 
     lines += ["## Results by language", "", "| Config | Language | Hit@5 | Factual correctness |", "|---|---|---|---|"]

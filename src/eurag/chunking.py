@@ -1,7 +1,9 @@
 """Two chunking strategies: fixed-size (baseline) and one chunk per article.
 
 "Article" is the citable unit of each document: "Article 12" in EU acts,
-"Artigo 12.º" in Portuguese acts, "Guideline 4" in EBA guidelines.
+"Artigo 12.º" in Portuguese acts, "Guideline 4" in EBA guidelines, and the
+"4.1 Title" sections of EBA guidelines without numbered guidelines. Articles
+of an annex that restarts at "Artigo 1.º" are labelled "anexo1-1", "anexo1-2"...
 """
 
 import re
@@ -18,9 +20,10 @@ ARTICLE_RE = re.compile(
     r"^(?:"
     r"Article\s+(?P<en>\d+[a-z]?)"
     r"|Art(?:igo|\.)\s*(?P<pt>\d+)(?:\.?\s*[ºo°])?(?:-(?P<pt_suffix>[A-Z]))?(?:\s+\S.*)?"
-    r"|Guideline\s+(?P<gl>\d+[A-Z]?)\s*:.*"
+    r"|(?P<sec>\d+\.\d+)\s+[A-Z][^.]{2,90}"
     r")$"
 )
+GUIDELINE_RE = re.compile(r"^Guideline\s+(?P<gl>\d+[A-Z]?)\b\s*:?.*$")
 
 
 class Chunk(BaseModel):
@@ -44,24 +47,46 @@ def normalise_article(raw: str) -> str:
 
 
 def heading_article(line: str) -> str | None:
-    """The article number if the line is an article heading, else None."""
+    """The article number if the line is an article heading, else None (no annex handling)."""
+    line = line.strip()
+    g = GUIDELINE_RE.match(line)
+    if g:  # guideline titles can be long
+        return normalise_article(g.group("gl"))
     if len(line) > MAX_HEADING_CHARS:
         return None
-    m = ARTICLE_RE.match(line.strip())
+    m = ARTICLE_RE.match(line)
     if not m:
         return None
     if m.group("en"):
         return normalise_article(m.group("en"))
     if m.group("pt"):
         return m.group("pt") + (m.group("pt_suffix") or "").lower()
-    return normalise_article(m.group("gl"))
+    return m.group("sec")
+
+
+def heading_labels(lines: list[str]) -> list[str | None]:
+    """Article label per line (None for non-headings); articles restarting at 1 go into annexes."""
+    labels: list[str | None] = []
+    annex, highest = 0, 0
+    for line in lines:
+        article = heading_article(line)
+        if article is not None:
+            number = int(re.match(r"\d+", article).group())
+            if number == 1 and highest > 1 and "." not in article:
+                annex += 1
+                highest = 0
+            highest = max(highest, number)
+            if annex:
+                article = f"anexo{annex}-{article}"
+        labels.append(article)
+    return labels
 
 
 def _sections(text: str) -> list[tuple[str | None, list[str]]]:
     """Split text into (article, lines) sections; text before the first heading has article None."""
     sections: list[tuple[str | None, list[str]]] = [(None, [])]
-    for line in text.splitlines():
-        article = heading_article(line)
+    lines = text.splitlines()
+    for line, article in zip(lines, heading_labels(lines), strict=True):
         if article is not None:
             sections.append((article, [line]))
         else:
@@ -130,8 +155,8 @@ def _dedupe_ids(chunks: list[Chunk]) -> list[Chunk]:
 
 def fixed_chunks(doc: DocText, size: int = 1000, overlap: int = 150) -> list[Chunk]:
     offsets, articles, pos = [], [], 0
-    for line in doc.text.splitlines(keepends=True):
-        article = heading_article(line.rstrip("\n"))
+    lines = doc.text.splitlines(keepends=True)
+    for line, article in zip(lines, heading_labels([x.rstrip("\n") for x in lines]), strict=True):
         if article is not None:
             offsets.append(pos)
             articles.append(article)

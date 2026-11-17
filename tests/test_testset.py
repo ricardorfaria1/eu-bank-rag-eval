@@ -44,3 +44,22 @@ def test_citations_from_contexts():
               Chunk(chunk_id="A:1:2", doc_id="A", article="1", covers=("1", "2"), language="en", url="u", text="y"),
               Chunk(chunk_id="A:pre:1", doc_id="A", article=None, covers=(), language="en", url="u", text="z")]
     assert citations_for(chunks) == ["A:1", "A:2"]
+
+
+def test_contexts_matched_by_containment():
+    from eurag.testset import chunks_for_contexts
+    a = Chunk(chunk_id="A:1:1", doc_id="A", article="1", covers=("1",), language="pt", url="u", text="Artigo 1.º\nTexto longo do artigo um.")
+    b = Chunk(chunk_id="A:2:1", doc_id="A", article="2", covers=("2",), language="pt", url="u", text="Artigo 2.º\nOutro texto.")
+    assert chunks_for_contexts(["Texto longo do artigo um."], [a, b]) == [a]
+    assert chunks_for_contexts(["nada a ver"], [a, b]) == []
+
+
+def test_extract_json_from_fenced_reply():
+    from eurag.testset import extract_json
+    assert extract_json('Aqui está:\n```json\n{"user_input": "P?", "reference": "R"}\n```') == {"user_input": "P?", "reference": "R"}
+
+
+def test_generator_llm_bypasses_temperature():
+    from eurag.testset import generator_llm
+    llm = generator_llm("claude-haiku-5-5", api_key="dummy")
+    assert llm.bypass_temperature is True

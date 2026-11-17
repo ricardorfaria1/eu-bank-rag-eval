@@ -69,3 +69,28 @@ def test_reference_in_body_is_not_a_heading():
     doc = DocText(doc_id="X", language="pt", url="u",
                   text="Artigo 1.º Objeto\nTexto.\nArtigo 83.º do Aviso n.º 1/2022 prevê que as entidades enviem o relatório anual ao Banco de Portugal, nos termos do modelo definido.\nArtigo 2.º\nMais texto.")
     assert [c.article for c in article_chunks(doc)] == ["1", "2"]
+
+
+def _lines_doc(doc_id, text):
+    return DocText(doc_id=doc_id, language="en", url="u", text=text)
+
+
+def test_guideline_heading_without_colon_or_long():
+    long_title = "Guideline 18: Sectoral guideline for payment initiation service providers (PISPs) and account information service providers (AISPs)"
+    doc = _lines_doc("EBA-RF", "Guideline 16: Funds\n16.1. Text.\nGuideline 17 Sectoral guideline for crowdfunding\n17.1. Text.\n"
+                     + long_title + "\n18.1. Text.")
+    assert [c.article for c in article_chunks(doc)] == ["16", "17", "18"]
+
+
+def test_eba_section_headings_are_units():
+    doc = _lines_doc("EBA-RO", "Intro text.\n4.1 Internal policies and procedures\n4.1.1 Policies\n9. Firms should.\n"
+                     "4.2 Acquisition of information\n15. Firms should identify.")
+    assert [c.article for c in article_chunks(doc) if c.article] == ["4.1", "4.2"]
+
+
+def test_annex_articles_do_not_collide_with_main_articles():
+    doc = DocText(doc_id="BdP-A1-2022", language="pt", url="u",
+                  text="Artigo 1.º Objeto\nA.\nArtigo 2.º\nB.\nArtigo 3.º\nC.\nAnexo I ao Aviso\nArtigo 1.º\nD.\nArtigo 2.º\nE.")
+    assert [c.article for c in article_chunks(doc)] == ["1", "2", "3", "anexo1-1", "anexo1-2"]
+    fixed = fixed_chunks(doc, size=12, overlap=0)
+    assert "anexo1-1" in {a for c in fixed for a in c.covers}

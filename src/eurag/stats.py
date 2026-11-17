@@ -1,12 +1,14 @@
 """Bootstrap confidence intervals over questions (no API cost)."""
 
+import math
+
 import numpy as np
 
 
 def bootstrap_ci(values: list[float | None], n: int = 10_000, seed: int = 0,
                  level: float = 0.95) -> tuple[float, float, float]:
-    """Mean and percentile bootstrap interval; None values are dropped."""
-    data = np.array([v for v in values if v is not None], dtype=float)
+    """Mean and percentile bootstrap interval; None and non-finite values are dropped."""
+    data = np.array([v for v in values if v is not None and math.isfinite(v)], dtype=float)
     if data.size == 0:
         return (float("nan"),) * 3
     rng = np.random.default_rng(seed)

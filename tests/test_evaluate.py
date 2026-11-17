@@ -54,3 +54,9 @@ def test_out_of_scope_skips_judge():
                                         {"faithfulness": faith, "factual_correctness": StubMetric()}))
     assert faith.calls == []
     assert rows[0]["refusal_correct"] == 1.0 and rows[0]["hit_at_5"] is None
+
+
+def test_nan_metric_becomes_none_with_error():
+    rows = asyncio.run(evaluate_answers([_answer("a")], {"a": _case("a")},
+                                        {"faithfulness": StubMetric(float("nan")), "factual_correctness": StubMetric()}))
+    assert rows[0]["faithfulness"] is None and any("non-finite" in e for e in rows[0]["errors"])

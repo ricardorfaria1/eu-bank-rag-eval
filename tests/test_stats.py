@@ -24,3 +24,7 @@ def test_paired_diff_sign_and_ignores_missing():
 
 def test_bootstrap_ignores_none():
     assert bootstrap_ci([1.0, None, 0.0])[0] == 0.5
+
+
+def test_bootstrap_ignores_nan():
+    assert bootstrap_ci([1.0, float("nan"), 0.0])[0] == 0.5

@@ -21,7 +21,7 @@ def test_report_sections_in_order(tmp_path):
     build_report(_scores_dir(tmp_path), out, chart=tmp_path / "metrics.png")
     text = out.read_text()
     headings = [line for line in text.splitlines() if line.startswith("## ")]
-    assert headings == ["## Run", "## Results by configuration", "## Difference against baseline",
+    assert headings == ["## Run", "## Results by configuration", "## Difference between configurations",
                         "## Results by language", "## Failures: retrieval or generation", "## Limitations"]
     for cfg in ("baseline", "by-article", "by-article-hybrid"):
         assert cfg in text
@@ -37,8 +37,8 @@ def test_inconclusive_label_when_ci_crosses_zero(tmp_path):
         "".join(json.dumps({**r, "config_id": "by-article-hybrid"}) + "\n" for r in text_rows))
     out = tmp_path / "REPORT.md"
     build_report(d, out, chart=tmp_path / "m.png")
-    diff_section = out.read_text().split("## Difference against baseline")[1].split("## ")[0]
-    hybrid_lines = [line for line in diff_section.splitlines() if "by-article-hybrid" in line]
+    diff_section = out.read_text().split("## Difference between configurations")[1].split("\n## ")[0]
+    hybrid_lines = [line for line in diff_section.splitlines() if "by-article-hybrid vs baseline" in line]
     assert hybrid_lines and all("inconclusive" in line for line in hybrid_lines)
 
 
@@ -62,3 +62,18 @@ def test_calibration_section_when_grades_exist(tmp_path):
     out = tmp_path / "REPORT.md"
     build_report(d, out, chart=tmp_path / "m.png", agent_grades=grades)
     assert "## Judge calibration" in out.read_text()
+
+
+def test_report_shows_cost_and_tokens(tmp_path):
+    out = tmp_path / "REPORT.md"
+    build_report(_scores_dir(tmp_path), out, chart=tmp_path / "m.png", meta={"judge_cost_usd": "0.60"})
+    text = out.read_text()
+    assert "Answer cost per question (USD)" in text and "Input tokens per answer" in text
+    assert "Judge cost" in text
+
+
+def test_report_compares_each_config_with_previous(tmp_path):
+    out = tmp_path / "REPORT.md"
+    build_report(_scores_dir(tmp_path), out, chart=tmp_path / "m.png")
+    diff = out.read_text().split("## Difference between configurations")[1].split("\n## ")[0]
+    assert "by-article vs baseline" in diff and "by-article-hybrid vs by-article" in diff

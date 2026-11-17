@@ -40,6 +40,10 @@ def estimate_cost(n_questions: int, n_configs: int, stage: Literal["testset", "r
 
 
 def actual_cost(model: str, input_tokens: int, output_tokens: int) -> float:
+    """Real cost from usage. An unpriced model is charged at the most expensive known price, never zero."""
+    if model not in PRICES_USD_PER_MTOK:
+        pin, pout = max(PRICES_USD_PER_MTOK.values())
+        return (input_tokens * pin + output_tokens * pout) / 1_000_000
     return _price(model, (input_tokens, output_tokens))
 
 
@@ -62,6 +66,9 @@ class BudgetLedger:
     @property
     def spent(self) -> float:
         return round(sum(e["usd"] for e in self._entries), 6)
+
+    def spent_on(self, stage_prefix: str) -> float:
+        return round(sum(e["usd"] for e in self._entries if e["stage"].startswith(stage_prefix)), 6)
 
     def check(self, estimate: float) -> None:
         if self.spent + estimate > BUDGET_USD:

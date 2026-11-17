@@ -1,6 +1,7 @@
 """Score answers: own metrics (no LLM) plus Ragas judge metrics (Claude Haiku)."""
 
 import asyncio
+import math
 
 from eurag.answer import Answer
 from eurag.metrics import (
@@ -57,7 +58,11 @@ async def _score_one(answer: Answer, case: TestCase, metrics: dict, sem: asyncio
             try:
                 async with sem:
                     result = await metric.ascore(**_metric_kwargs(name, answer, case))
-                row[name] = float(result.value)
+                value = float(result.value)
+                if not math.isfinite(value):  # e.g. faithfulness on an answer with no statements
+                    row["errors"].append(f"{name}: non-finite score ({value})")
+                    continue
+                row[name] = value
             except Exception as exc:  # noqa: BLE001 - one failed judge call must not abort the evaluation
                 row["errors"].append(f"{name}: {exc}")
     return row

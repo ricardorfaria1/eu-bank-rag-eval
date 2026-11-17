@@ -31,7 +31,13 @@ from eurag.costs import (
 from eurag.evaluate import default_judge_llm, evaluate_answers, judge_metrics
 from eurag.index import Retriever, build_index, default_embeddings, default_sparse
 from eurag.report import build_report
-from eurag.testset import generate_candidates, load_testset, merge_review, write_testset
+from eurag.testset import (
+    generate_candidates,
+    load_testset,
+    merge_review,
+    translate_cases,
+    write_testset,
+)
 
 RAW = Path("data/raw")
 TEXT = Path("data/text")
@@ -49,6 +55,12 @@ FACTORIES = {
     "chat": default_chat,
     "judge_metrics": lambda: judge_metrics(default_judge_llm(JUDGE_MODEL)),
 }
+
+
+def _corpus_key(strategy: str) -> str:
+    """Hash of the chunk file: answers from an older corpus or chunking are never reused."""
+    path = CHUNKS / f"{strategy}.jsonl"
+    return hashlib.sha256(path.read_bytes()).hexdigest()[:12] if path.exists() else ""
 
 
 def _read_chunks(strategy: str) -> list[Chunk]:
@@ -113,10 +125,16 @@ def cmd_testset(args) -> int:
         print(f"{len(cases)} evaluated cases written to {TESTSET}")
         return 0
     chunks = _read_chunks("article")
-    if not _paid_ok(estimate_cost(args.n, 1, "testset", n_chunks=len(chunks)), args.yes):
+    estimate = estimate_cost(args.n, 1, "testset", n_chunks=len(chunks))
+    if not _paid_ok(estimate, args.yes):
         return 1
-    cases = generate_candidates(chunks, JUDGE_MODEL, FACTORIES["embeddings"]("BAAI/bge-m3"), n=args.n)
-    write_testset(cases, out_dir / "candidates.csv")
+    try:
+        cases = generate_candidates(chunks, JUDGE_MODEL, FACTORIES["embeddings"]("BAAI/bge-m3"), n=args.n)
+        write_testset(cases, out_dir / "candidates.csv")  # saved before translation, so a failure loses nothing paid
+        cases = translate_cases(cases, JUDGE_MODEL)
+        write_testset(cases, out_dir / "candidates.csv")
+    finally:
+        BudgetLedger().record("testset (estimated)", estimate)
     print(f"{len(cases)} candidates written to {out_dir / 'candidates.csv'}; review them (docs/REVIEW_GUIDE.md)")
     return 0
 
@@ -125,46 +143,80 @@ def cmd_run(args) -> int:
     cases = load_testset(TESTSET)[: args.limit] if args.limit else load_testset(TESTSET)
     cache = AnswerCache(CACHE)
     configs = _selected(args.config)
-    todo = sum(cache.get(cfg, c.id) is None for cfg in configs for c in cases)
+    if not configs:
+        print(f"unknown config {args.config!r}", file=sys.stderr)
+        return 2
+    keys = {cfg.id: _corpus_key(cfg.chunking) for cfg in configs}
+    todo = sum(cache.get(cfg, c.id, c.user_input, keys[cfg.id]) is None for cfg in configs for c in cases)
     if todo and not _paid_ok(estimate_cost(todo, 1, "run"), args.yes):
         return 1
     aliases = alias_map(load_manifest())
     embeddings = FACTORIES["embeddings"](configs[0].embedding_model) if todo else None
-    spent = 0.0
+    ledger = BudgetLedger()
+
+    def record(answer) -> None:  # per answer, so an interrupted run still accounts for what it paid
+        ledger.record("run", actual_cost(answer.model, answer.input_tokens, answer.output_tokens))
+
     for cfg in configs:
-        pending = [c for c in cases if cache.get(cfg, c.id) is None]
+        pending = [c for c in cases if cache.get(cfg, c.id, c.user_input, keys[cfg.id]) is None]
         if not pending:
             print(f"{cfg.id}: all {len(cases)} answers cached")
             continue
         sparse = FACTORIES["sparse"]() if cfg.retrieval == "hybrid" else None
         retriever = Retriever(INDEX, cfg.index_name, embeddings, sparse)
         answers = answer_all([(c.id, c.user_input) for c in pending], cfg, retriever,
-                             FACTORIES["chat"](cfg.answer_model), cache, aliases)
-        cost = sum(actual_cost(ANSWER_MODEL, a.input_tokens, a.output_tokens) for a in answers)
-        spent += cost
+                             FACTORIES["chat"](cfg.answer_model), cache, aliases, keys[cfg.id], on_answer=record)
+        cost = sum(actual_cost(a.model, a.input_tokens, a.output_tokens) for a in answers)
         print(f"{cfg.id}: {len(answers)} new answers, ${cost:.2f}")
-    if spent:
-        BudgetLedger().record("run", spent)
     return 0
+
+
+def _existing_scores(cfg_id: str) -> dict[str, dict]:
+    path = SCORES / f"{cfg_id}.jsonl"
+    if not path.exists():
+        return {}
+    return {r["question_id"]: r for r in (json.loads(x) for x in path.read_text().splitlines() if x.strip())}
 
 
 def cmd_evaluate(args) -> int:
     cases = {c.id: c for c in load_testset(TESTSET)}
     cache = AnswerCache(CACHE)
     configs = _selected(args.config)
-    answers = {cfg.id: [a for a in cache.all(cfg) if a.question_id in cases] for cfg in configs}
+    if not configs:
+        print(f"unknown config {args.config!r}", file=sys.stderr)
+        return 2
+    existing = {cfg.id: _existing_scores(cfg.id) for cfg in configs}
+
+    def needs_scoring(cfg_id: str, qid: str) -> bool:
+        row = existing[cfg_id].get(qid)
+        return row is None or (args.retry_errors and bool(row["errors"]))
+
+    answers = {cfg.id: [a for a in cache.all(cfg, _corpus_key(cfg.chunking))
+                        if a.question_id in cases and needs_scoring(cfg.id, a.question_id)] for cfg in configs}
     n = sum(len(v) for v in answers.values())
+    if n == 0:
+        print("nothing to score: every answer already has scores (use --retry-errors to rescore failed ones)")
+        return 0
     estimate = estimate_cost(n, 1, "evaluate")
     if not _paid_ok(estimate, args.yes):
         return 1
-    metrics = FACTORIES["judge_metrics"]()
+
+    async def score_all() -> dict[str, list[dict]]:
+        # One event loop for every config: the async judge client must not outlive its loop.
+        metrics = FACTORIES["judge_metrics"]()
+        return {cfg.id: await evaluate_answers(answers[cfg.id], cases, metrics) for cfg in configs}
+
+    try:
+        new_rows = asyncio.run(score_all())
+    finally:
+        BudgetLedger().record("evaluate (estimated)", estimate)
     SCORES.mkdir(parents=True, exist_ok=True)
     for cfg in configs:
-        rows = asyncio.run(evaluate_answers(answers[cfg.id], cases, metrics))
-        (SCORES / f"{cfg.id}.jsonl").write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
-        failed = sum(bool(r["errors"]) for r in rows)
-        print(f"{cfg.id}: {len(rows)} scored, {failed} with judge errors")
-    BudgetLedger().record("evaluate (estimated)", estimate)
+        rows = {**existing[cfg.id], **{r["question_id"]: r for r in new_rows[cfg.id]}}
+        ordered = [rows[q] for q in sorted(rows)]
+        (SCORES / f"{cfg.id}.jsonl").write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in ordered))
+        failed = sum(bool(r["errors"]) for r in new_rows[cfg.id])
+        print(f"{cfg.id}: {len(new_rows[cfg.id])} scored, {failed} with judge errors")
     return 0
 
 
@@ -173,7 +225,7 @@ def _answer_texts() -> dict[tuple[str, str], dict]:
     cache = AnswerCache(CACHE)
     texts = {}
     for cfg in load_all():
-        for a in cache.all(cfg):
+        for a in cache.all(cfg, _corpus_key(cfg.chunking)):
             if a.question_id in cases:
                 excerpts = "\n\n".join(r.chunk.text for r in a.retrieved)
                 texts[(cfg.id, a.question_id)] = {"question": a.question, "reference": cases[a.question_id].reference,
@@ -194,7 +246,9 @@ def _meta() -> dict:
     lock = RAW / "lock.json"
     if lock.exists():
         meta["corpus_lock_sha256"] = hashlib.sha256(lock.read_bytes()).hexdigest()[:12]
-    meta["total_cost_usd"] = f"{BudgetLedger().spent:.2f}"
+    ledger = BudgetLedger()
+    meta["total_cost_usd"] = f"{ledger.spent:.2f}"
+    meta["judge_cost_usd"] = f"{ledger.spent_on('evaluate'):.2f} (estimated)"
     return meta
 
 
@@ -227,6 +281,8 @@ def main(argv: list[str] | None = None) -> int:
         p.add_argument("--yes", action="store_true")
         if name == "run":
             p.add_argument("--limit", type=int, default=None)
+        else:
+            p.add_argument("--retry-errors", action="store_true", help="rescore rows whose judge call failed")
         p.set_defaults(func=func)
 
     p = sub.add_parser("calibrate", help="write a blind sample for the second grader")
