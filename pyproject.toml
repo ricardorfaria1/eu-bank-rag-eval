@@ -45,3 +45,10 @@ markers = [
     "paid: calls the Anthropic API",
 ]
 addopts = "-m 'not models and not paid'"
+
+[tool.uv]
+# CI runs on Linux x86_64; make the lock pick versions that have wheels there.
+required-environments = [
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+]
