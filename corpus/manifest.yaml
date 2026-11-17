@@ -1,0 +1,109 @@
+# Source documents. Downloaded by `eurag ingest`; never committed.
+# Checked 2026-11-17 against eur-lex.europa.eu, eba.europa.eu and bportugal.pt.
+# manual: true -> no stable download URL; save the file by hand as data/raw/<doc_id>.<format>.
+- doc_id: AMLR
+  title: Regulation (EU) 2024/1624 (AMLR)
+  aliases: [AMLR, "Regulation (EU) 2024/1624", "Regulamento (UE) 2024/1624"]
+  url: "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1624"
+  format: html
+  language: en
+  publisher: EUR-Lex
+  reuse_note: Reuse authorised with source acknowledgement (Commission Decision 2011/833/EU).
+- doc_id: AMLD6
+  title: Directive (EU) 2024/1640 (AMLD6)
+  aliases: [AMLD6, "Directive (EU) 2024/1640", "Diretiva (UE) 2024/1640"]
+  url: "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024L1640"
+  format: html
+  language: en
+  publisher: EUR-Lex
+  reuse_note: Reuse authorised with source acknowledgement (Commission Decision 2011/833/EU).
+- doc_id: AMLA-R
+  title: Regulation (EU) 2024/1620 establishing AMLA
+  aliases: [AMLA-R, AMLA, "Regulation (EU) 2024/1620", "Regulamento (UE) 2024/1620"]
+  url: "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1620"
+  format: html
+  language: en
+  publisher: EUR-Lex
+  reuse_note: Reuse authorised with source acknowledgement (Commission Decision 2011/833/EU).
+- doc_id: EBA-RF
+  title: EBA Guidelines on ML/TF risk factors (EBA/GL/2021/02, consolidated with EBA/GL/2023/03)
+  aliases: [EBA-RF, "EBA/GL/2021/02", "ML/TF Risk Factors Guidelines"]
+  url: "https://eba.europa.eu/sites/default/files/2023-11/EBA%20GL%202021%2002%20-%20consolidated%20%28amended%20by%20EBA%20GL%202023%2003%29_EN.pdf"
+  format: pdf
+  language: en
+  publisher: EBA
+  reuse_note: EBA publications may be reproduced with acknowledgement of the source.
+- doc_id: EBA-RO
+  title: EBA Guidelines on remote customer onboarding (EBA/GL/2022/15)
+  aliases: [EBA-RO, "EBA/GL/2022/15"]
+  url: "https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-15%20GL%20on%20remote%20customer%20onboarding/1043884/Guidelines%20on%20the%20use%20of%20Remote%20Customer%20Onboarding%20Solutions.pdf"
+  format: pdf
+  language: en
+  publisher: EBA
+  reuse_note: EBA publications may be reproduced with acknowledgement of the source.
+- doc_id: L83-2017
+  title: Lei n.º 83/2017 (republicada pela Lei n.º 58/2020)
+  aliases: [L83-2017, "Lei 83/2017", "Lei n.º 83/2017"]
+  url: "https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/legislacao/diplomas_legislativos/Documents/Lei_83_2017.pdf"
+  format: pdf
+  language: pt
+  publisher: Portal das Finanças
+  reuse_note: Legislative texts are excluded from copyright protection (Código do Direito de Autor, art. 7.º).
+- doc_id: L97-2017
+  title: Lei n.º 97/2017 (medidas restritivas)
+  aliases: [L97-2017, "Lei 97/2017", "Lei n.º 97/2017"]
+  url: "https://diariodarepublica.pt/dr/detalhe/lei/97-2017-108041476"
+  format: pdf
+  language: pt
+  publisher: Diário da República
+  manual: true
+  reuse_note: Legislative texts are excluded from copyright protection (Código do Direito de Autor, art. 7.º).
+- doc_id: L72-2025
+  title: Lei n.º 72/2025 (altera a Lei n.º 97/2017; transpõe a Diretiva (UE) 2024/1226)
+  aliases: [L72-2025, "Lei 72/2025", "Lei n.º 72/2025"]
+  url: "https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/legislacao/diplomas_legislativos/Documents/Lei_72_2025.pdf"
+  format: pdf
+  language: pt
+  publisher: Portal das Finanças
+  reuse_note: Legislative texts are excluded from copyright protection (Código do Direito de Autor, art. 7.º).
+- doc_id: BdP-A1-2022
+  title: Aviso do Banco de Portugal n.º 1/2022
+  aliases: [BdP-A1-2022, "Aviso 1/2022", "Aviso n.º 1/2022"]
+  url: "https://www.bportugal.pt/sites/default/files/anexos/cartas-circulares//399222301_1.pdf"
+  format: pdf
+  language: pt
+  publisher: Banco de Portugal
+  reuse_note: Official regulatory text; reproduced with source acknowledgement.
+- doc_id: BdP-A1-2023
+  title: Aviso do Banco de Portugal n.º 1/2023 (ativos virtuais; altera o Aviso n.º 1/2022)
+  aliases: [BdP-A1-2023, "Aviso 1/2023", "Aviso n.º 1/2023"]
+  url: "https://www.bportugal.pt/sites/default/files/anexos/cartas-circulares//399187707_1.pdf"
+  format: pdf
+  language: pt
+  publisher: Banco de Portugal
+  reuse_note: Official regulatory text; reproduced with source acknowledgement.
+- doc_id: BdP-A3-2024
+  title: Aviso do Banco de Portugal n.º 3/2024 (altera o Aviso n.º 1/2022)
+  aliases: [BdP-A3-2024, "Aviso 3/2024", "Aviso n.º 3/2024"]
+  url: "https://www.bportugal.pt/sites/default/files/anexos/cartas-circulares//399188671_1.pdf"
+  format: pdf
+  language: pt
+  publisher: Banco de Portugal
+  reuse_note: Official regulatory text; reproduced with source acknowledgement.
+- doc_id: BdP-I8-2024
+  title: Instrução do Banco de Portugal n.º 8/2024 (reporte anual BC/FT)
+  aliases: [BdP-I8-2024, "Instrução 8/2024", "Instrução n.º 8/2024"]
+  url: "https://www.bportugal.pt/sites/default/files/anexos/instrucoes//399228210_1.pdf"
+  format: pdf
+  language: pt
+  publisher: Banco de Portugal
+  reuse_note: Official regulatory text; reproduced with source acknowledgement.
+- doc_id: CMVM-R2-2020
+  title: Regulamento da CMVM n.º 2/2020 (prevenção do BC/FT)
+  aliases: [CMVM-R2-2020, "Regulamento da CMVM n.º 2/2020", "Regulamento 2/2020"]
+  url: "https://www.cmvm.pt"
+  format: pdf
+  language: pt
+  publisher: CMVM
+  manual: true
+  reuse_note: Official regulatory text; reproduced with source acknowledgement.
