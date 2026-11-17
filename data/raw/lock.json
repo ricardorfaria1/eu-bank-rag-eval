@@ -1,0 +1,57 @@
+{
+  "AMLA-R": {
+    "retrieved_at": "2026-11-17T18:23:39.098101+00:00",
+    "sha256": "9579dec2a4423d000c6ffa3c3198910895ea5dbf235545ec6ac7a8b452d7295f",
+    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1620"
+  },
+  "AMLD6": {
+    "retrieved_at": "2026-11-17T18:23:38.646422+00:00",
+    "sha256": "b64650191264ead10fd279a5afef91614fa91e527498a8ece8452dd22f3c1e65",
+    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024L1640"
+  },
+  "AMLR": {
+    "retrieved_at": "2026-11-17T18:23:38.159237+00:00",
+    "sha256": "80e5c61dfd15d79a08f7b24ec4b5e6c8aee9a77065e8eebfc79ddf6c54618417",
+    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1624"
+  },
+  "BdP-A1-2022": {
+    "retrieved_at": "2026-11-17T18:23:41.443354+00:00",
+    "sha256": "19cd75443ca161eb4c40f8e606767d3dc1ccea21c055d3f8bb5973137db8ffdd",
+    "url": "https://www.bportugal.pt/sites/default/files/anexos/cartas-circulares//399222301_1.pdf"
+  },
+  "BdP-A1-2023": {
+    "retrieved_at": "2026-11-17T18:23:41.779196+00:00",
+    "sha256": "7e70fea7238e7cc43c2edd812b86d3b3ad5e9ce54342e6568e545c5a6267c454",
+    "url": "https://www.bportugal.pt/sites/default/files/anexos/cartas-circulares//399187707_1.pdf"
+  },
+  "BdP-A3-2024": {
+    "retrieved_at": "2026-11-17T18:23:41.990188+00:00",
+    "sha256": "c949c095f13fec8042c220459ec148af645cd096daf0eb8d5e75bccb9d3278d0",
+    "url": "https://www.bportugal.pt/sites/default/files/anexos/cartas-circulares//399188671_1.pdf"
+  },
+  "BdP-I8-2024": {
+    "retrieved_at": "2026-11-17T18:23:42.215590+00:00",
+    "sha256": "c7757b87b00c13c8c892c6ffb20a3243b08694fbae3000d2f266182300a038b4",
+    "url": "https://www.bportugal.pt/sites/default/files/anexos/instrucoes//399228210_1.pdf"
+  },
+  "EBA-RF": {
+    "retrieved_at": "2026-11-17T18:23:39.704595+00:00",
+    "sha256": "7503803921397c57d1f2f1e09982ea60dc00fa25b7fda4e31f2918d243649918",
+    "url": "https://eba.europa.eu/sites/default/files/2023-11/EBA%20GL%202021%2002%20-%20consolidated%20%28amended%20by%20EBA%20GL%202023%2003%29_EN.pdf"
+  },
+  "EBA-RO": {
+    "retrieved_at": "2026-11-17T18:23:40.249423+00:00",
+    "sha256": "a8d23dd230bb95dd32a575165ab8829cfb16ad04c77eacb3d1a60b30532c0e0b",
+    "url": "https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-15%20GL%20on%20remote%20customer%20onboarding/1043884/Guidelines%20on%20the%20use%20of%20Remote%20Customer%20Onboarding%20Solutions.pdf"
+  },
+  "L72-2025": {
+    "retrieved_at": "2026-11-17T18:23:41.196993+00:00",
+    "sha256": "cf99feb5914961ee8187a6537204458b26ef9559cfa01963b8ce2ebed2d4777f",
+    "url": "https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/legislacao/diplomas_legislativos/Documents/Lei_72_2025.pdf"
+  },
+  "L83-2017": {
+    "retrieved_at": "2026-11-17T18:23:40.508519+00:00",
+    "sha256": "8769c4188c9048e2a192312535fd614da38aee13250d9754728f9d2c1fe0219b",
+    "url": "https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/legislacao/diplomas_legislativos/Documents/Lei_83_2017.pdf"
+  }
+}
