@@ -1,0 +1,202 @@
+Guideline 1: Risk assessments: key principles for all firms
+1.1. Firms should ensure that they have a thorough understanding of the ML/TF risks to which they are exposed.
+General considerations
+1.2. To comply with their obligations set out in Directive (EU) 2015/849, firms should assess:
+2. the ML/TF risk to which they are exposed as a result of the nature and complexity of their business (the business-wide risk assessment); and
+3. the ML/TF risk to which they are exposed as a result of entering into a business relationship or carrying out an occasional transaction (individual risk assessments).
+Each risk assessment should consist of two distinct but related steps:
+the identification of ML/TF risk factors; and a)
+the assessment of ML/TF risk. b)
+1.3. When assessing the overall level of residual ML/TF risk associated with their business and with individual business relationships or occasional transactions, firms should consider both, the level of inherent risk, and the quality of controls and other risk mitigating factors.
+1.4. As set out in Article 8(2) of Directive (EU) 2015/849, firms should record and document their business-wide risk assessment, as well as any changes made to this risk assessment in a way that makes it possible for the firm, and for competent authorities, to understand how it was conducted, and why it was conducted in a particular way.
+1.5. Firms that are credit institutions and investment firms should also refer to the EBA's internal governance guidelines in this context. 3
+3 Guidelines on internal governance, EBA/GL/2017/11
+Keeping risk assessments up to date
+1.6. Firms should put in place systems and controls to keep their assessments of the ML/TF risk associated with their business, and with their individual business relationships under review to ensure that their assessment of ML/TF risk remains up to date and relevant.
+1.7. The systems and controls that firms should put in place to ensure their individual and business-wide risk assessments remain up to date should include:
+3. Setting a date for each calendar year on which the next business-wide risk assessment update will take place, and setting a date on a risk sensitive basis for the individual risk assessment to ensure new or emerging risks are included.
+4. Where the firm becomes aware before that date that a new ML/TF risk has emerged, or an existing one has increased, this should be reflected in their individual and business-wide risk assessments as soon as possible; and
+5. Carefully recording issues throughout the relevant period that could have a bearing on risk assessments, such as internal suspicious transaction reports, compliance failures and intelligence from front office staff.
+1.8. As part of this, firms should ensure that they have systems and controls in place to identify emerging ML/TF risks and that they can assess these risks and, where appropriate, incorporate them into their business-wide and individual risk assessments in a timely manner.
+1.9. The systems and controls that firms should put in place to identify emerging risks should include:
+8. Processes to ensure that internal information, such as information obtained as part of a firm's ongoing monitoring of business relationships, is reviewed regularly to identify trends and emerging issues in relation to both, individual business relationships and the firm's business.
+9. Processes to ensure that the firm regularly reviews relevant information sources, including those specified in guidelines 1.28 to 1.30 , and in particular:
+10. In respect of individual risk assessments,
+11. terror alerts and financial sanctions regimes, or changes thereto, as soon as they are issued or communicated and ensure that these are acted upon as necessary; and
+12. media reports that are relevant to the sectors or jurisdictions in which the firm is active.
+In respect of business-wide risk assessments,
+law enforcement alerts and reports;
+thematic reviews and similar publications issued by competent authorities; and
+Processes to capture and review information on risks, in particular risks relating to new categories of customers, countries or geographical areas, new products, new services, new distribution channels and new compliance systems and controls.
+Engagement with other industry representatives and competent authorities (e.g. round tables, conferences and training), and processes to feed back any findings to relevant staff.
+1.10. Firms should determine the frequency of wholesale reviews of their business-wide and individual risk assessments methodology on a risk-sensitive basis.
+Business-wide risk assessments
+1.11. Business-wide risk assessments should help firms understand where they are exposed to ML/TF risk and which areas of their business they should prioritise in the fight against ML/TF.
+1.12. To this end, firms should take a holistic view of the ML/TF risks to which they are exposed, by identifying and assessing the ML/TF risk associated with the products and services they offer, the jurisdictions they operate in, the customers they attract and the transaction or delivery channels they use to service their customers..
+1.13. Firms should:
+4. Identify risk factors based on information from a variety of internal and external sources, including the sources listed in Guidelines 1.30 to 1.31;
+5. have regard to relevant risk factors in Titles I and II of these Guidelines; and
+6. take into account wider, contextual, factors such as sectoral risk and geographical risk, that could have a bearing on their ML/TF risk profiles.
+1.14. Firms should ensure that their business-wide risk assessment is tailored to their business profile and takes into account the factors and risks specific to the firm's business, whether the firm draws up its own business-wide risk assessment or contracts an external party to draw up its business-wide risk assessment. Similarly, where a firm is part of a group that draws up a group-wide risk assessment, the firm should consider whether the group-wide risk assessment is sufficiently granular and specific to reflect the firm's business and the risks
+to which it is exposed as a result of the group's links to countries and geographical areas, and complement the group-wide risk assessment if necessary. If the group is headquartered in a country associated with a high level of corruption, the firm should reflect this in its risk assessment even if the group-wide risk assessment stays silent on this point.
+1.15. A generic ML/TF risk assessment that has not been adapted to the specific needs and business model of the firm ('an off-the-shelf ML/TF risk assessment'), or a group-wide risk assessment that is applied unquestioningly, is unlikely to meet the requirements in Article 8 of Directive (EU) 2015/849.
+Proportionality
+1.16. As set out in Article 8 of Directive (EU) 2015, 849, the steps a firm takes to identify and assess ML/TF risk across its business must be proportionate to the nature and size of each firm. Small firms that do not offer complex products or services and that have limited or purely domestic exposure, may not need a complex or sophisticated risk assessment.
+Implementation
+1.17. Firms should
+make their business-wide risk assessment available to competent authorities ;
+Take steps to ensure that staff understand the business-wide risk assessment, and how it affects their daily work in line with Article 46 (1) of Directive (EU) 2015/849; and
+inform senior management about the results of their business-wide risk assessment, and ensure that senior management is provided with sufficient information to understand, and take a view on, the risk to which their business is exposed.
+Linking the business-wide and individual risk assessments
+1.18. Firms should use the findings from their business-wide risk assessment to inform their AML/CFT policies, controls and procedures, as set out in Article 8(3) and (4) of Directive (EU) 2015/849. Firms should ensure that their business-wide risk assessment also reflects the steps taken to assess the ML/TF risk associated with individual business relationships or occasional transactions and their ML/TF risk appetite.
+1.19. To comply with Guideline 1.18, and also having regard to Guidelines 1.21 and 1.22, firms should use the business-wide risk assessment to inform the level of initial customer due diligence that they will apply in specific situations, and to particular types of customers, products, services and delivery channels.
+1.20. Individual risk assessments should inform, but are no substitute for, a business-wide risk assessment.
+Individual risk assessments
+1.21. Firms should find out which ML/TF risks they are, or would be, exposed to as a result of entering into, or maintaining, a business relationship or carrying out an occasional transaction.
+1.22. When identifying ML/TF risks associated with a business relationship or occasional transaction, firms should consider relevant risk factors including who their customer is, the countries or geographical areas they operate in, the particular products, services and transactions the customer requires and the channels the firm uses to deliver these products, services and transactions.
+Initial Customer Due Diligence
+1.23. Before entering into a business relationship or carrying out an occasional transaction, firms should apply initial CDD in line with Article 13(1)(a), (b) and (c) and Article 14(4) of Directive (EU) 2015/849.
+1.24. Initial CDD should include at least risk-sensitive measures to:
+3. identify the customer and, where applicable, the customer's beneficial owner;
+4. verify the customer's identity on the basis of reliable and independent sources and,where applicable, verify the beneficial owner's identity in such a way that the firm is satisfied that it knows who the beneficial owner is; and
+5. establish the purpose and intended nature of the business relationship.
+1.25. Firms should adjust the extent of initial CDD measures on a risk-sensitive basis, taking into account the findings from their business-wide risk assessment. Where the risk associated with a business relationship is likely to be low, and to the extent permitted by national legislation, firms may be able to apply simplified customer due diligence measures (SDD). Where the risk associated with a business relationship is likely to be increased, firms must apply enhanced customer due diligence measures (EDD).
+Obtaining a holistic view
+1.26. Firms should gather sufficient information so that they are satisfied that they have identified all relevant risk factors at the beginning of the business relationship and throughout the business relationship or before carrying out the occasional transaction. Where necessary, firms should apply additional CDD measures, and assess those risk factors to obtain a holistic view of the risk associated with a particular business relationship or occasional transaction.
+1.27. There is no expectation that firms should draw up a complete customer risk profile for occasional transactions.
+Ongoing customer due diligence
+1.28. Firms should use information obtained during the course of the business relationship for individual risk assessment purposes (see 'Monitoring' in Guideline 4).
+Sources of information
+1.29. To identify ML/TF risk, firms should refer to information from a variety of sources, which can be accessed individually or through commercially available tools or databases that pool information from several sources.
+1.30. Firms should always consider the following sources of information:
+3. the European Commission's supranational risk assessment;
+4. the European Commission's list of high-risk third countries;
+5. information from governments, such as governments' national risk assessments, policy statements and alerts, and explanatory memorandums to relevant legislation;
+6. information from regulators, such as guidance and the reasoning set out in regulatory fines;
+7. information from Financial Intelligence Units (FIUs) and law enforcement agencies, such as threat reports, alerts and typologies; and
+8. information obtained as part of the initial CDD process and ongoing monitoring.
+1.31. Other sources of information firms should consider include, but are not limited to:
+10. the firm's own knowledge and professional expertise;
+11. information from industry bodies, such as typologies and emerging risks;
+12. information from civil society, such as corruption indices and country reports;
+13. information from international standard-setting bodies such as mutual evaluation reports or legally non-binding blacklists, including those listed in guidelines 2.11 to 2.15 ;
+14. information from credible and reliable open sources, such as reports in reputable newspapers;
+information from credible and reliable commercial organisations, such as risk and intelligence reports; and f)
+information from statistical organisations and academia.
+1.32. Firms should determine the type and numbers of sources on a risk-sensitive basis, taking into account the nature and complexity of their business. Firms should not normally rely on only one source to identify ML/TF risks.
+Guideline 2: Identifying ML/TF risk factors
+Firms should identify risk factors relating to their customers, countries or geographical areas, products and services, and delivery channels in the wayset out in these Guidelines, having also regard to the non-exhaustive list of factors set out in Annexes II and III of Directive (EU) 2015/849.
+Firms should note that the following risk factors are not exhaustive, nor is there an expectation that firms will consider all risk factors in all cases.
+Customer risk factors
+When identifying the risk associated with their customers, including their customers' beneficial owners, firms should consider the risk related to:
+the customer's and the customer's beneficial owner's business or professional activity;
+the customer's and the customer's beneficial owner's reputation; and
+the customer's and the customer's beneficial owner's nature and behaviour, including whether this could point to increased TF risk.
+Risk factors that may be relevant when identifying the risk associated with a customer's or a customer's beneficial owner's business or professional activity include:
+Does the customer or beneficial owner have links to sectors that are commonly associated with higher corruption risk, such as construction, pharmaceuticals and healthcare, the arms trade and defence, the extractive industries or public procurement?
+Does the customer or beneficial owner have links to sectors that are associated with higher ML/TF risk, for example certain Money Service Businesses, casinos or dealers in precious metals?
+Does the customer or beneficial owner have links to sectors that involve significant amounts of cash?
+Where the customer is a legal person, trust, or other type of legal arrangement, what is the purpose of their establishment? For example, what is the nature of their business?
+Does the customer have political connections, for example, are they a Politically Exposed Person (PEP), or is their beneficial owner a PEP? Does the customer or beneficial owner have any other relevant links to a PEP, for example are any of the customer's directors PEPs and, if so, do these PEPs exercise significant control over the customer or beneficial owner? Where a customer or their beneficial owner is a PEP, firms must always apply EDD measures in line with Article 20 of Directive (EU) 2015/849.
+Does the customer or beneficial owner hold another prominent position or enjoy a high public profile that might enable them to abuse this position for private gain? For example, are they senior local or regional public officials with the ability to influence the awarding of public contracts, decision-making members of high-profile sporting bodies or individuals who are known to influence the government and other senior decision-makers?
+Is the customer a legal person subject to enforceable disclosure requirements that ensure that reliable information about the customer's beneficial owner is publicly available, for example public companies listed on stock exchanges that make such disclosure a condition for listing?
+Is the customer a credit or financial institution acting on its own account from a jurisdiction with an effective AML/CFT regime and is it supervised for compliance with local AML/CFT obligations? Is there evidence that the customer has been subject to supervisory sanctions or enforcement for failure to comply with AML/CFT obligations or wider conduct requirements in recent years?
+Is the customer a public administration or enterprise from a jurisdiction with low levels of corruption?
+Is the customer's or the beneficial owner's background consistent with what the firm knows about their former, current or planned business activity, their business's turnover, the source of funds and the customer's or beneficial owner's source of wealth?
+The following risk factors may be relevant when identifying the risk associated with a customer's or beneficial owners' reputation:
+Are there adverse media reports or other relevant sources of information about the customer, for example are there any allegations of criminality or terrorism against the customer or the beneficial owner? If so, are these reliable and credible? Firms should determine the credibility of allegations on the basis of the quality and independence of the source of the data and the persistence of reporting of these allegations, among other considerations. Firms should note that the absence of criminal convictions alone may not be sufficient to dismiss allegations of wrongdoing.
+Has the customer, beneficial owner or anyone publicly known to be closely associated with them had their assets frozen due to administrative or criminal proceedings or allegations of terrorism or terrorist financing? Does the firm have reasonable grounds to suspect that the customer or beneficial owner or anyone publicly known to be closely associated with them has, at some point in the past, been subject to such an asset freeze?
+Does the firm know if the customer or beneficial owner has been the subject of a suspicious transactions report in the past?
+Does the firm have any in-house information about the customer's or the beneficial owner's integrity, obtained, for example, in the course of a longstanding business relationship?
+The following risk factors may be relevant when identifying the risk associated with a customer's or beneficial owner's nature and behavior. Firms should note that not all of these risk factors will be apparent at the outset; they may emerge only once a business relationship has been established:
+Does the customer have legitimate reasons for being unable to provide robust evidence of their identity, perhaps because they are an asylum seeker?
+Does the firm have any doubts about the veracity or accuracy of the customer's or beneficial owner's identity?
+Are there indications that the customer might seek to avoid the establishment of a business relationship? For example, does the customer look to carry out one transaction or several one-off transactions where the establishment of a business relationship might make more economic sense?
+Is the customer's ownership and control structure transparent and does it make sense? If the customer's ownership and control structure is complex or opaque, is there an obvious commercial or lawful rationale?
+Does the customer issue bearer shares or does it have nominee shareholders?
+Is the customer a legal person or arrangement that could be used as an assetholding vehicle?
+Is there a sound reason for changes in the customer's ownership and control structure?
+Does the customer request transactions that are complex, unusually or unexpectedly large, have an unusual or unexpected pattern, no apparent economic or lawful purpose, or lack a sound commercial rationale? Are there grounds to suspect that the customer is trying to evade specific thresholds such as those set out in Article 11(b) of Directive (EU) 2015/849 and national law where applicable?
+Does the customer request unnecessary or unreasonable levels of secrecy? For example, is the customer reluctant to share CDD information, or do they appear to want to disguise the true nature of their business?
+Can the customer's or beneficial owner's source of wealth or source of funds be easily explained, for example through their occupation, inheritance or investments? Is the explanation plausible?
+Does the customer use the products and services they have taken out as expected when the business relationship was first established?
+Where the customer is a non-resident, could their needs be better serviced elsewhere? Is there a sound economic and lawful rationale for the customer requesting the type of financial service sought? Firms should note that Article 16 of Directive 2014/92/EU creates a right for customers who are legally resident in the Union to obtain a basic payment account, but this right applies only to the extent that credit institutions can comply with their AML/CFT obligations as referred to in Articles 1(7) and 16(4) of Directive 2014/92/EU.
+When identifying the risk associated with a customer's or beneficial owner's nature and behaviour, firms should pay particular attention to risk factors that, although not specific to terrorist financing, could point to increased TF risk, in particular in situations where other TF risk factors are also present. To this end, firms should consider at least the following risk factors:
+Is the customer or the beneficial owner a person included in the lists of persons, groups and entities involved in terrorist acts and subject to restrictive measures 4 ,
+4 See for instance Council Common Position of 27 December 2001 on the application of specific measures to combat terrorism (2001/931/CFSP)(OJ L 344 , 28.12.2001, p. 0093); Council Regulation (EC) No 2580/2001 of 27 December 2001 on specific restrictive measures directed against certain persons and entities with a view to combating terrorism (OJ L
+A1
+O
+or are they known to have close personal or professional links to persons registered on such lists (for example, because they are in a relationship or otherwise live with such a person)?
+Is the customer or the beneficial owner a person who is publicly known to be under investigation for terrorist activity or has been convicted for terrorist activity, or are they known to have close personal or professional links to such a person (for example, because they are in a relationship or otherwise live with such a person)?
+Does the customer carry out transactions that are characterised by incoming and outgoing fund transfers from and/or to countries where groups committing terrorist offences are known to be operating, that are known to be sources of terrorist financing or that are subject to international sanctions? If so, can these transfers be explained easily through, for example, family ties or commercial relationships?
+Where the customer is a not-for-profit organisation (NPO), the firms should apply the criteria set out in the annex.
+Does the customer carry out transactions characterized by large flows of money in a short period of time, involving non-profit organizations with unclear links (e.g. they are domiciled at the same physical location; they share the same representatives or employees or they hold multiple accounts under the same names)?
+Does the customer transfer or intend to transfer funds to persons referred to in (a) and (b)?
+In addition to the information sources listed in guidelines 1.30 and 1.31, firms should pay particular attention to the FATF's typologies on TF, which are regularly updated. 5
+Countries and geographical areas
+344 28.12.2001, p. 70 ); Council Regulation (EC) No 881/2002 of 27 May 2002 imposing certain specific restrictive measures directed against certain persons and entities associated with the ISIL (Da'esh) and Al-Qaida organisations (OJ L 139 29.5.2002, p. 9). You may also consult the EU sanctions map at https://www.sanctionsmap.eu/
+5 http://www.fatf-gafi.org/publications/methodsandtrends/documents/ml-tf-risks.html
+When identifying the risk associated with countries and geographical areas, firms should consider the risk related to:
+the jurisdictions in which the customer is based or is resident, and beneficial owner is resident;
+the jurisdictions that are the customer's and beneficial owner's main places of business; and
+the jurisdictions to which the customer and beneficial owner have relevant personal or business links, or financial or legal interests.
+Firms should note that the nature and purpose of the business relationship, or the type of business, will often determine the relative importance of individual country and geographical risk factors. For example:
+Where the funds used in the business relationship have been generated abroad, the level of predicate offences to money laundering and the effectiveness of a country's legal system will be particularly relevant.
+Where funds are received from, or sent to, jurisdictions where groups committing terrorist offences are known to be operating, firms should consider to what extent this could be expected to or might give rise to suspicion, based on what the firm knows about the purpose and nature of the business relationship.
+Where the customer is a credit or financial institution, firms should pay particular attention to the adequacy of the country's AML/CFT regime and the effectiveness of AML/CFT supervision.
+Where the customer is a trust or any other type of legal arrangement, or has a structure or functions similar to trusts such as, fiducie, fideicomiso, Treuhand, firms should take into account the extent to which the country in which the customer and, where applicable, the beneficial owner are registered effectively complies with international tax transparency and information sharing standards.
+Risk factors firms should consider when identifying the effectiveness of a jurisdiction's AML/CFT regime include:
+Has the country been identified by the Commission as having strategic deficiencies in its AML/CFT regime, in line with Article 9 of Directive (EU) 2015/849? In those cases, firms should refer to guideline 4.53 to 4.57 for guidance.
+Does the country's law prohibit the implementation of group-wide policies and procedures and in particular are there any situations in which the Commission delegated Regulation (EU) 2019/758 should be applied?
+Is there information from more than one credible and reliable source about the quality of the jurisdiction's AML/CFT controls, including information about the quality and effectiveness of regulatory enforcement and oversight? Examples of possible sources include mutual evaluation reports by the Financial Action Task Force (FATF) or FATF-style Regional Bodies (FSRBs) (a good starting point is the executive summary and key findings and the assessment of compliance with Recommendations 10, 26 and 27 and Immediate Outcomes 3 and 4), the FATF's list of high-risk and non- cooperative jurisdictions, International Monetary Fund (IMF) assessments and Financial Sector Assessment Programme (FSAP) reports. Firms should note that membership of the FATF or an FSRB (e.g. Moneyval) does not, of itself, mean that the jurisdiction's AML/CFT regime is adequate and effective.
+Firms should note that Directive (EU) 2015/849 does not recognise the 'equivalence' of third countries and that EU Member States' lists of equivalent jurisdictions are no longer being maintained. To the extent permitted by national legislation, firms should be able to identify lower risk jurisdictions in line with these guidelines and Annex II of Directive (EU) 2015/849.
+Risk factors firms should consider when identifying the level of terrorist financing risk associated with a jurisdiction include:
+Is there information, for example from law enforcement or credible and reliable open media sources, suggesting that a jurisdiction provides funding or support for terrorist activities, either from official sources, or from organised groups or organisations within that jurisdiction?
+Is there information, for example from law enforcement or credible and reliable open media sources, suggesting that groups committing terrorist offences are known to be operating in the country or territory?
+Is the jurisdiction subject to financial sanctions, embargoes or measures that are related to terrorism, financing of terrorism or proliferation issued by, for example, the United Nations or the European Union?
+Risk factors firms should consider when identifying a jurisdiction's level of transparency and tax compliance include:
+Is there information from more than one credible and reliable source that the country has been deemed compliant with international tax transparency and information sharing standards? Is there evidence that relevant rules are
+effectively implemented in practice? Examples of possible sources include reports by the Global Forum on Transparency and the Exchange of Information for Tax Purposes of the Organisation for Economic Co-operation and Development (OECD), which rate jurisdictions for tax transparency and information sharing purposes; assessments of the jurisdiction's commitment to automatic exchange of information based on the Common Reporting Standard; assessments of compliance with FATF Recommendations 9, 24 and 25 and Immediate Outcomes 2 and 5 by the FATF or FSRBs; assessments conducted with regard to the EU list of non-cooperative jurisdictions for tax purposes; and IMF assessments (e.g. IMF staff assessments of offshore financial centres).
+Has the jurisdiction committed to, and effectively implemented, the Common Reporting Standard on Automatic Exchange of Information, which the G20 adopted in 2014?
+Has the jurisdiction put in place reliable and accessible beneficial ownership registers?
+Risk factors firms should consider when identifying the risk associated with the level of predicate offences to money laundering include:
+Is there information from credible and reliable public sources about the level of predicate offences to money laundering listed in Article 3(4) of Directive (EU) 2015/849, for example corruption, organised crime, tax crime and serious fraud? Examples include corruption perception indices; OECD country reports on the implementation of the OECD's anti-bribery convention; and the United Nations Office on Drugs and Crime World Drug Report.
+Is there information from more than one credible and reliable source about the capacity of the jurisdiction's investigative and judicial system effectively to investigate and prosecute these offences?
+Products, services and transactions risk factors
+When identifying the risk associated with their products, services or transactions, firms should consider the risk related to:
+the level of transparency, or opaqueness, the product, service or transaction affords;
+the complexity of the product, service or transaction; and
+the value or size of the product, service or transaction.
+Risk factors firms should consider when identifying the risk associated with a product, service or transaction's transparency include:
+To what extent do products or services allow the customer or beneficial owner or beneficiary structures to remain anonymous, or facilitate hiding their identity? Examples of such products and services include bearer shares, fiduciary deposits, offshore vehicles and certain trusts, and legal entities such as foundations that can be structured in such a way as to take advantage of anonymity and allow dealings with shell companies or companies with nominee shareholders.
+To what extent is it possible for a third party that is not part of the business relationship to give instructions, for example in the case of certain correspondent banking relationships?
+Risk factors firms should consider when identifying the risk associated with a product, service or transaction's complexity include:
+How complex is the transaction and does it involve multiple parties or multiple jurisdictions, for example in the case of certain trade finance transactions? Are transactions straightforward, for example are regular payments made into a pension fund?
+To what extent do products or services allow payments from third parties or accept overpayments where this is would not normally be expected? Where third party payments are expected, does the firm know the third party's identity, for example is it a state benefit authority or a guarantor? Or are products and services funded exclusively by fund transfers from the customer's own account at another financial institution that is subject to AML/CFT standards and oversight that are comparable to those required under Directive (EU) 2015/849?
+Does the firm understand the risks associated with its new or innovative product or service, in particular where this involves the use of new technologies or payment methods?
+Risk factors firms should consider when identifying the risk associated with a product, service or transaction's value or size include:
+To what extent are products or services cash intensive, as are many payment services but also certain current accounts?
+To what extent do products or services facilitate or encourage high-value transactions? Are there any caps on transaction values or levels of premium that could limit the use of the product or service for ML/TF purposes?
+Delivery channel risk factors
+When identifying the risk associated with the way in which the customer obtains the products or services they require, firms should consider the risk related to:
+a) the extent to which the business relationship is conducted on a non-face-to-face basis; and
+b) any introducers or intermediaries the firm might use and the nature of their relationship with the firm.
+When assessing the risk associated with the way in which the customer obtains the products or services, firms should consider a number of factors including:
+whether the customer is physically present for identification purposes. If they are not, whether the firm
+used a reliable form of non-face-to-face CDD; and
+took steps to prevent impersonation or identity fraud.
+Firms should apply Guidelines 4.29 to 4.31 in those situations.
+whether the customer has been introduced by another part of the same financial group and, if so, to what extent the firm can rely on this introduction as reassurance that the customer will not expose the firm to excessive ML/TF risk, and what the firm has done to satisfy itself that the group entity applies CDD measures to European Economic Area (EEA) standards in line with Article 28 of Directive (EU) 2015/849;
+whether the customer has been introduced by a third party, for example a bank that is not part of the same group or an intermediary, and if so
+whether the third party is a regulated person subject to AML obligations that are consistent with those of Directive (EU) 2015/849, and whether the third party is a financial institution or its main business activity is unrelated to financial service provision;
+whether the third party applies CDD measures, keeps records to EEA standards, is supervised for compliance with comparable AML/CFT obligations in line with Article 26 of Directive (EU) 2015/849, and whether there are any indications that the third party's level of compliance with applicable AML/CFT legislation or regulation is inadequate, for example whether the third party has been sanctioned for breaches of AML/CFT obligations;
+whether they are based in a jurisdiction associated with higher ML/TF risk. Where a third party is based in a high-risk third country that the CEU Commission has identified as having strategic deficiencies, firms must not rely on that third party. However, to the extent permitted by national legislation, reliance may be possible provided that the intermediary is a branch or majority-owned subsidiary of another firm established in the Union, and the firm is confident that the intermediary fully complies with group-wide policies and procedures in line with Article 45 of Directive (EU) 2015/849. 6
+what the firm has done to satisfy itself that:
+the third party always provides the necessary identity documentation;
+the third party will provide, immediately upon request, relevant copies of identification and verification data or electronic data referred to, inter alia, in Article 27 of Directive (EU) 2015/849;
+the quality of the third party's CDD measures is such that it can be relied upon; and
+the level of CDD applied by the third party is commensurate to the ML/TF risk associated with the business relationship, considering that the third party will have applied CDD measures for its own purposes and, potentially, in a different context.
+whether the customer has been introduced through a tied agent, that is, without direct firm contact, and to what extent the firm can be satisfied that the agent has obtained enough information to ensure that the firm knows its customer and the level of risk associated with the business relationship;
+whether independent or tied agents are used, to what extent they are involved on an ongoing basis in the conduct of business, and how this affects the firm's knowledge of the customer and ongoing risk management;
+To the extent permitted by national legislation, when the firm uses an outsourced service provider for aspects of its AML/CFT obligations, whether it has considered whether the outsourced service provider is an obliged entity, and whether it has addressed the risks set out in the EBA's Guidelines on outsourcing (EBA/GL/2019/02), where those Guidelines are applicable.
+6 Article 26(2) of Directive (EU) 2015/849

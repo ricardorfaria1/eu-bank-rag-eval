@@ -51,7 +51,8 @@ def markdown_to_text(md: str) -> str:
 
 
 def pdf_to_text(path: Path) -> str:
-    from docling.document_converter import DocumentConverter  # heavy import, only when needed
+    # Heavy import, only when a PDF is converted.
+    from docling.document_converter import DocumentConverter
 
     return markdown_to_text(DocumentConverter().convert(str(path)).document.export_to_markdown())
 
